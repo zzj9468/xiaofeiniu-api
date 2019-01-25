@@ -66,7 +66,7 @@ INSERT INTO xfn_category VALUES
 /*菜品详情*/
 CREATE TABLE xfn_dish(
     did INT PRIMARY KEY AUTO_INCREMENT,
-    titile VARCHAR(32),
+    title VARCHAR(32),
     imgUrl VARCHAR(128),
     price DECIMAL(6,2),
     detail VARCHAR(128),
