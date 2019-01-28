@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id='bt1'>获取所有桌台类别</button>
+    <button id='bt2'>删除所有桌台类别</button>
+    <button id='bt3'>添加所有桌台类别</button>
+    <button id='bt4'>修改所有桌台类别</button>
+    <button id='bt5'>桌台详情</button>
+    <script src="./axios.min.js"></script>
+    <script>
+        bt1.onclick=function(){
+            /*/admin/table--访问本地服务器下的admin/table*/
+            axios.get('http://127.0.0.1:8090/admin/table')
+                .then((result)=>{
+                    console.log('获取桌台类别成功');
+                    console.log(result.data)
+
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+        }
+        bt2.onclick=function(){
+            /*浏览器发送一次delete请求,会向服务器发两次请求,第一次先发送一个options,向服务器确认是否同意delete请求,
+            服务器会响应一个Access-Control-Allow-Methods: GET,HEAD,PUT,PATCH,POST,DELETE,之后浏览器再发送delete请求,再实现删除的操作*/
+
+            /*PUT/DELETE请求之前浏览器会提交一个--预取请求(Preflight Request-----OPTIONS)*/
+            axios.delete('http://127.0.0.1:8090/admin/table/16')
+                .then((result)=>{
+                    console.log('删除桌台类别成功');
+                    console.log(result.data)
+                })
+                .catch((err)=>{
+                    console.error(err)
+                })
+        }
+        bt3.onclick=function(){
+            var data={tname:'一个座',type:'4人座',status:2};
+            axios.post('http://127.0.0.1:8090/admin/table',data)
+                .then((result)=>{
+                    console.log('添加桌台类别成功');
+                    console.log(result.data)
+                })
+                .catch((err)=>{
+                    console.error(err)
+                })
+        }
+        bt4.onclick=function(){
+            var data={tid:6,status:2}
+            axios.put('http://127.0.0.1:8090/admin/table',data)
+                .then((result)=>{
+                    console.log(result.data)
+                })
+                .catch((err)=>{
+                    console.error(err);                })
+        }
+        bt5.onclick=function(){
+            /*/admin/table--访问本地服务器下的admin/table*/
+            axios.get('http://127.0.0.1:8090/admin/table/detail/满堂彩')
+                .then((result)=>{
+                    console.log('获取桌台类别成功');
+                    console.log(result.data)
+
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+        }
+    </script>
+</body>
+</html>
