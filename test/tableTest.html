@@ -10,7 +10,7 @@
     <button id='bt1'>获取所有桌台类别</button>
     <button id='bt2'>删除所有桌台类别</button>
     <button id='bt3'>添加所有桌台类别</button>
-    <button id='bt4'>修改所有桌台类别</button>
+    <button id='bt4'>修改桌台状态</button>
     <button id='bt5'>桌台详情</button>
     <script src="./axios.min.js"></script>
     <script>
@@ -62,7 +62,7 @@
         }
         bt5.onclick=function(){
             /*/admin/table--访问本地服务器下的admin/table*/
-            axios.get('http://127.0.0.1:8090/admin/table/detail/满堂彩')
+            axios.get('http://127.0.0.1:8090/admin/table/detail/齐天寿')
                 .then((result)=>{
                     console.log('获取桌台类别成功');
                     console.log(result.data)
@@ -72,6 +72,7 @@
                     console.log(err);
                 })
         }
+
     </script>
 </body>
 </html>

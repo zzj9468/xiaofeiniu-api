@@ -15,7 +15,7 @@ router.get('/',(req,res)=>{
     })
 })
 
-router.put('/update',(req,res)=>{
+router.put('/',(req,res)=>{
     /*var appname=req.body.appname;
     var apiUrl=req.body.apiUrl;
     var adminUrl=req.body.adminUrl;

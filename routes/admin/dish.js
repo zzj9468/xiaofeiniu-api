@@ -7,7 +7,7 @@ var pool=require('../../pool');
  * GET  /admin/dish
  * 获取所有的菜品,根据类别进行分类
  * 返回数据:
- *      [
+ *      []
  *          {cid:1,cname:'肉类',disdList:[{},{},{}..]}
  *          {cid:1,cname:'海鲜类',disdList:[{},{},{}..]}
  *          {cid:1,cname:'虾滑类',disdList:[{},{},{}..]}

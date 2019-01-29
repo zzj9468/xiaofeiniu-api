@@ -35,7 +35,7 @@ app.use(express.static('public'));
 /*
 挂载到路由器下 */
 app.use('/admin',adminRouter);
-app.use('/damin/setting',setting);
+app.use('/admin/setting',setting);
 app.use('/admin/table',table);
 app.use('/admin/dish',dishRouter);
 app.use('/admin/category',categoryRouter);

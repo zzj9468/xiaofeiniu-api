@@ -2,6 +2,9 @@ const express=require('express')
 var router=express.Router();
 var pool=require('../../pool');
 
+/**
+ * 查询所有桌台的信息
+ */
 router.get('/',(req,res)=>{
     var sql='SELECT * FROM xfn_table';
     pool.query(sql,(err,result)=>{
@@ -13,11 +16,83 @@ router.get('/',(req,res)=>{
         }
     })
 })
+
+/**
+ * 查询一个桌台的信息
+ */
 router.get('/detail/:tname',(req,res)=>{
-    var res=[];
     var tname=req.params.tname;
-    pool.query('select * from xfn_table where tname=?')
+    pool.query('select * from xfn_table where tname=?',tname,(err,result)=>{
+        if(err) throw err;
+        if(result.length>0){
+            var res01=result;
+            if(result[0].status==2){
+                console.log('状态为'+result[0].status+'时,tname::'+tname);
+                pool.query('select * from xfn_reservation where tableId=? order by contactTime asc limit 1',result[0].tid,(err,result)=>{
+                    if(err) throw err;
+                    if(result.length>0){
+                        res01[0].reservationList=result[0];
+                        res.send({code:200,data:res01});
+                    }
+                })
+            }else if(result[0].status==3){
+                //桌子状态为占用时
+                    //先根据tableId查询订单详情表的内容
+                    console.log('状态为'+result[0].status+'时,tname::'+tname);
+                    pool.query('select startTime,oid,customerCount from xfn_order where tableId=? order by startTime asc limit 1',result[0].tid,(err,result)=>{
+                        if(err) throw err;
+                        if(result.length>0){
+                            // console.log(result)
+                            res01[0].orderList=result[0];
+                            //根据订单
+                            pool.query('select customerName,dishCount,dishId from xfn_order_detail where orderId=?',result[0].oid,(err,result)=>{
+                                if(err)throw err;
+                                if(result.length>0){
+                                    res01[0].userList=result
+                                    // console.log(result)
+                                    var count=0;
+                                    for(let r of result){
+                                        // console.log(r)
+                                        pool.query('select title from xfn_dish where did=?',r.dishId,(err,result)=>{
+                                            if(err)throw err; count++;
+                                            if(result.length>0){ 
+                                               
+                                                // console.log(result)
+                                                r.title=result[0].title
+                                                // console.log(r)
+                                                // console.log(res01[0])
+                                                console.log(count)
+                                                if(count==result.length){
+                                                    res.send({code:200,data:res01})
+                                            }
+                                            //    res01[0].userList.title=result[0].title
+   
+                                            }
+                                         })
+                                    }
+                                //     res01[0].userList=result
+                                //     if(count==2){
+                                //         res.send({code:200,data:res01})
+                                // }
+
+                                }
+                            })
+                            
+                        }
+                    })
+    
+            }else{
+                res.send({code:200,data:result})
+            }
+            // res.send({code:200,data:result})
+        }else{
+            res.send({code:400,msg:'table selected err'})
+        }
+    })
 })
+/**
+ * 修改桌台的状态
+ */
 router.put('/',(req,res)=>{
     var data=req.body;
     var tid=data.tid;
