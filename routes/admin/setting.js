@@ -3,7 +3,7 @@ var router=express.Router();
 var pool=require('../../pool');
 
 /**全局设置 */
-router.get('/all',(req,res)=>{
+router.get('/',(req,res)=>{
     var sql='SELECT * FROM xfn_settings';
     pool.query(sql,(err,result)=>{
         if(err) throw err;
@@ -15,15 +15,16 @@ router.get('/all',(req,res)=>{
     })
 })
 
-router.post('/update',(req,res)=>{
-    var appname=req.body.appname;
+router.put('/update',(req,res)=>{
+    /*var appname=req.body.appname;
     var apiUrl=req.body.apiUrl;
     var adminUrl=req.body.adminUrl;
     var appUrl=req.body.appUrl;
     var icp=req.body.icp;
-    var copyright=req.body.copyright;
+    var copyright=req.body.copyright;*/
+    var data=req.body;
     var sql='UPDATE xfn_settings SET appname=?,apiUrl=?,adminUrl=?,appUrl=?,icp=?,copyright=?';
-    pool.query(sql,[appname,apiUrl,adminUrl,appUrl,icp,copyright],(err,result)=>{
+    pool.query(sql,[data.appname,data.apiUrl,data.adminUrl,data.appUrl,data.icp,data.copyright],(err,result)=>{
         if(err) throw err;
         if(result.affectedRows>0){
             res.send({code:1,msg:'修改成功'})

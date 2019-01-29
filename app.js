@@ -10,7 +10,7 @@ const bodyParser=require('body-parser');
 var adminRouter=require('./routes/admin/admin');
 var setting=require('./routes/admin/setting');
 var table=require('./routes/admin/table');
-var dish=require('./routes/admin/dish');
+var dishRouter=require('./routes/admin/dish');
 var categoryRouter=require('./routes/admin/category');
 
 var app=express();
@@ -35,7 +35,7 @@ app.use(express.static('public'));
 /*
 挂载到路由器下 */
 app.use('/admin',adminRouter);
-app.use('/setting',setting);
+app.use('/damin/setting',setting);
 app.use('/admin/table',table);
-app.use('/admin/dish',dish);
+app.use('/admin/dish',dishRouter);
 app.use('/admin/category',categoryRouter);
