@@ -3,7 +3,12 @@ var router=express.Router();
 var pool=require('../../pool');
 
 /**
+ * GET /admin/table
  * 查询所有桌台的信息
+ * 返回数据,   
+ *     [
+ *        {tid:xxx,tname:'xx',status:..} 
+ * ]
  */
 router.get('/',(req,res)=>{
     var sql='SELECT * FROM xfn_table';
@@ -49,20 +54,14 @@ router.get('/detail/:tname',(req,res)=>{
                                 if(err)throw err;
                                 if(result.length>0){
                                     res01[0].userList=result
-                                    // console.log(result)
                                     var count=0;
-                                    for(let r of result){
-                                        // console.log(r)
+                                    var userList=result;
+                                    for(let r of userList){
                                         pool.query('select title from xfn_dish where did=?',r.dishId,(err,result)=>{
-                                            if(err)throw err; count++;
+                                            if(err)throw err;                         count++;
                                             if(result.length>0){ 
-                                               
-                                                // console.log(result)
                                                 r.title=result[0].title
-                                                // console.log(r)
-                                                // console.log(res01[0])
-                                                console.log(count)
-                                                if(count==result.length){
+                                                if(count>result.length){
                                                     res.send({code:200,data:res01})
                                             }
                                             //    res01[0].userList.title=result[0].title
@@ -70,11 +69,6 @@ router.get('/detail/:tname',(req,res)=>{
                                             }
                                          })
                                     }
-                                //     res01[0].userList=result
-                                //     if(count==2){
-                                //         res.send({code:200,data:res01})
-                                // }
-
                                 }
                             })
                             

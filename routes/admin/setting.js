@@ -16,12 +16,6 @@ router.get('/',(req,res)=>{
 })
 
 router.put('/',(req,res)=>{
-    /*var appname=req.body.appname;
-    var apiUrl=req.body.apiUrl;
-    var adminUrl=req.body.adminUrl;
-    var appUrl=req.body.appUrl;
-    var icp=req.body.icp;
-    var copyright=req.body.copyright;*/
     var data=req.body;
     var sql='UPDATE xfn_settings SET appname=?,apiUrl=?,adminUrl=?,appUrl=?,icp=?,copyright=?';
     pool.query(sql,[data.appname,data.apiUrl,data.adminUrl,data.appUrl,data.icp,data.copyright],(err,result)=>{
