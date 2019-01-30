@@ -21,7 +21,7 @@ app.listen(port,()=>{
  * 使用中间件
  */
 app.use(cors({
-    origin:'http://127.0.0.1:5500',
+    origin:'http://127.0.0.1:8091',
     credentials:true
 }))
 /**
