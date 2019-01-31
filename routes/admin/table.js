@@ -116,7 +116,7 @@ router.put('/',(req,res)=>{
 router.post('/',(req,res)=>{
     var data=req.body;
     var sql='INSERT INTO xfn_table(tname,type,status) VALUES(?,?,?)';
-    pool.query('select * from xfn_table where tname=?', data.tname, (err, result) => {
+    pool.query(sql,[data.tname,data.type,data.status], (err, result) => {
         if (err) throw err;
         if (result.length > 0) {
             res.send({ code: 200, data: 'table has exists' })
