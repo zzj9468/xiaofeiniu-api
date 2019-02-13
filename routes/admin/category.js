@@ -58,8 +58,8 @@ router.delete('/:cid', (req, res) => {
  */
 
 router.post('/', (req, res) => {
-    console.log('获取到请求数据:');
-    console.log(req.body)//形如{cname:'...'}
+    // console.log('获取到请求数据:');
+    // console.log(req.body)//形如{cname:'...'}
     var cname = req.body.cname;
     pool.query('select * from xfn_category where cname=?', cname, (err, result) => {
         if (err) throw err;
@@ -94,7 +94,7 @@ router.put('/', (req, res) => {
     //TODO此处可对数据进行验证
     var sql = 'UPDATE xfn_category SET cname=? WHERE cid=?';
     pool.query(sql, [data.cname, data.cid], (err, result) => {
-        console.log(result)
+        // console.log(result)
         if (err) throw err;
         if (result.changedRows > 0) {  //更新了一行
             res.send({code:200,msg:'1 category modified'})

@@ -53,6 +53,7 @@ router.patch('/',(req,res)=>{
     //如果查询到,在修改密码
     pool.query('select aid from xfn_admin where aname=? and apwd=PASSWORD(?)',[data.aname,data.oldPwd],(err,result)=>{
         if(err)throw err;
+        // console.log(data);
         if(result.length==0){
             res.send({code:400,msg:'pwd err'});
             return;

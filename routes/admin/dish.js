@@ -23,7 +23,7 @@ router.get('/',(req,res)=>{
         // 循环遍历每个菜品类别,查询该类别下有哪些菜品
         var categoryList=result;//菜品类别数组
         var finishedCount=0;
-        console.log(result);
+        // console.log(result);
         var sql='select * from xfn_dish where categoryId=? order by did desc';    
         for(let c of categoryList){
                 pool.query(sql,c.cid,(err,result)=>{

@@ -58,7 +58,8 @@ router.get('/detail/:tname',(req,res)=>{
                                     var userList=result;
                                     for(let r of userList){
                                         pool.query('select title from xfn_dish where did=?',r.dishId,(err,result)=>{
-                                            if(err)throw err;                         count++;
+                                            if(err)throw err;                   
+                                                count++;
                                             if(result.length>0){ 
                                                 r.title=result[0].title
                                                 if(count>result.length){
@@ -116,10 +117,10 @@ router.put('/',(req,res)=>{
 router.post('/',(req,res)=>{
     var data=req.body;
     var sql='INSERT INTO xfn_table(tname,type,status) VALUES(?,?,?)';
-    pool.query(sql,[data.tname,data.type,data.status], (err, result) => {
+    pool.query('select * from xfn_table where tname=?',data.tname,(err, result) => {
         if (err) throw err;
         if (result.length > 0) {
-            res.send({ code: 200, data: 'table has exists' })
+            res.send({ code: 401, data: 'table has exists' })
         }else{
             pool.query(sql,[data.tname,data.type,data.status],(err,result)=>{
                 if(err) throw err;
@@ -137,14 +138,22 @@ router.post('/',(req,res)=>{
 
 router.delete('/:tid',(req,res)=>{
     var tid=req.params.tid;
-    var sql='DELETE FROM xfn_table WHERE tid=?';
-    pool.query(sql,tid,(err,result)=>{
-        if(err) throw err;
-        if(result.affectedRows>0){
-            res.send({ code: 200, msg: "1 table deleted" })
+    pool.query('select * from xfn_table where tid=?',tid,(err, result) => {
+        if (err) throw err;
+        if (result.length == 0) {
+            res.send({ code: 401, data: 'table is not exists' })
+
         }else{
-            res.send({ code: 200, msg: "0 table deleted" })
-        }
-    })
+            var sql='DELETE FROM xfn_table WHERE tid=?';
+            pool.query(sql,tid,(err,result)=>{
+                if(err) throw err;
+                if(result.affectedRows>0){
+                    res.send({ code: 200, msg: "1 table deleted" })
+                }else{
+                    res.send({ code: 400, msg: "0 table deleted" })
+                }
+            })
+        } 
+    })      
 })
 module.exports=router;
